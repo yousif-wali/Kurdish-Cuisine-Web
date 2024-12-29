@@ -47,6 +47,26 @@
             .catch((error) => {
                 console.error('Error:', error);
         });
+        fetch('http://localhost/Kurdish%20Cuisine%20Web/Backend/', {
+            method: 'POST',
+            credentials: 'include', // Ensures cookies or other credentials are included
+            headers: {
+                'Content-Type': 'application/json', // Backend should expect JSON data
+            },
+            body: JSON.stringify({ key: '$2y$16$Jso8f58Rm0pVfrChNbK2mOZph3DpP7wFLSxA7OJPPhanRLywN.Gfe', Username: "Bastory"}), // Send JSON data
+            })
+            .then((res) => {
+                if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+        });
     </script>
 </body>
 </html>

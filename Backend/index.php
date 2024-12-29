@@ -6,6 +6,8 @@ require_once "./Likes.php";
 require_once "./Comments.php";
 
 $con = new MySQLiConnection('localhost', 'root', '', 'kurdish_cuisine');
+//$con = new MySQLiConnection('localhost', 'root', '123457', 'kurdish_cuisine');
+
 $db = new DB($con);
 
 // Variables for database connections
@@ -62,7 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     // Login
     if(verify_key("userLogin", $data["key"])){
-        $result = $userDB->checkUser("Bastory", "passwords");
+        $result = $userDB->checkUser("Bastory", "password");
+        if($result == "Success"){
+            $success = true;
+        }
+    }
+    // Delete
+    if(verify_key("userDelete", $data["key"])){
+        $result = $userDB->delete($data["Username"]);
         if($result == "Success"){
             $success = true;
         }
