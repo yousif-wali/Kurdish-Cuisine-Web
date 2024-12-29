@@ -1,0 +1,10 @@
+RewriteEngine On
+# Pages
+RewriteRule ^Login ./Pages/Login.php
+RewriteRule ^Signup ./Pages/Signup.php
+
+#Transfer Data
+RewriteRule ^SignUpForm ./Validate.php
+
+#Assets
+RewriteRule ^Styles/General ./Asset/Styles/General.css

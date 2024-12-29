@@ -17,15 +17,20 @@ $likesDB = new Likes($db);
 $commentsDB = new Comments($db);
 
 // Important for shipping/production Remove "http://localhost"
-$allowed_origins = ['https://example.com', 'http://localhost'];
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origin, $allowed_origins)) {
-    header("Access-Control-Allow-Origin: $origin");
-    header("Access-Control-Allow-Methods: GET, POST");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-} else {
-    header("HTTP/1.1 403 Forbidden");
-    exit('Cross-origin request denied.');
+header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204); // No content
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(403); // Forbidden
+    echo json_encode(['error' => 'Only POST requests are allowed']);
+    exit;
 }
 
 // Ensure the request is POST for JSON processing
@@ -44,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Process the data (example: echoing it back)
     $success = false;
     $result = "";
+    $proccessed = false;
     function verify_key($text, $key) {
         // Securely compare the provided text with the stored key
         return password_verify($text, $key);
@@ -57,10 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Sign up
     if(verify_key("userSignUp", $data["key"])){
-        $result = $userDB->insert("Bastory", "password", "email@gmail.com", "Male","Regular");
+        $result = $userDB->insert($data["Username"], $data["Password"], $data["Email"], $data["Gender"],"Regular");
         if($result == "User inserted successfully"){
             $success = true;
         }
+        $proccessed = true;
     }
     // Login
     if(verify_key("userLogin", $data["key"])){
@@ -68,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if($result == "Success"){
             $success = true;
         }
+        $proccessed = true;
     }
     // Delete
     if(verify_key("userDelete", $data["key"])){
@@ -75,11 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if($result == "Success"){
             $success = true;
         }
+        $proccessed = true;
     }
 
     $response = [
         'success' => $success,
-        'result' => $result
+        'result' => $result,
+        'proccessed' => $proccessed,
     ];
 
     // Send JSON response
