@@ -1,5 +1,5 @@
 <?php
-include "./Database.php";
+include_once "./Database.php";
 
 class Likes{
     private $db;
@@ -13,12 +13,12 @@ class Likes{
             $queryString = "INSERT INTO Likes (Username, Post_Id) VALUES (? , ?)";
             $result = $this->db->query($queryString, [$Username, $Post_Id]);
             if($result){
-                echo "success";
+                return "success";
             }else{
                 throw new Exception("Could not send the like.");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }

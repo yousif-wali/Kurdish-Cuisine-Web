@@ -1,5 +1,5 @@
 <?php
-include "./Database";
+include_once "./Database.php";
 
 class Comments{
     private $db;
@@ -18,7 +18,7 @@ class Comments{
                 throw new Exception("Could not make comment.");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }

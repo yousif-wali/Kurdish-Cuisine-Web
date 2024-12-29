@@ -1,7 +1,5 @@
 <?php
-interface IDatabaseConnection {
-    public function getConnection();
-}
+include_once "./Interfaces.php";
 
 class DB {
     private $con;

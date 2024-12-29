@@ -1,5 +1,5 @@
 <?php
-include "./Database.php";
+include_once "./Database.php";
 include "./FileUploader.php";
 class Posts{
     private $db;
@@ -21,13 +21,14 @@ class Posts{
                     $lastId = $this->selectLastId($Username);
                     $queryString = "INSERT INTO `Files` (Post_Id, Filename) VALUES (?, ?)";
                     $result = $this->db->query($queryString, [$lastId, $file["name"]]);
+                    return "Posts is successfully posted";
                 }else{
                     $this->deleteLastAttempt();
                     throw new Exception("Error Code 101");
                 }
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     // Uploading the file
@@ -41,7 +42,7 @@ class Posts{
                 throw new Exception("Failed to upload");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     private function selectLastId(string $Username): int{
@@ -55,7 +56,7 @@ class Posts{
                 throw new Exception("Could not file the post");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     private function deleteLastAttempt(){
@@ -64,12 +65,12 @@ class Posts{
             WHERE ID = (SELECT MAX(ID) FROM `POSTS`);";
             $result = $this->db->query($queryString);
             if($result){
-                echo "success deleting the last post";
+                return "success deleting the last post";
             }else{
                 throw new Exception("Could not delete the last post");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }

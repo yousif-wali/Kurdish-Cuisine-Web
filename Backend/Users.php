@@ -1,5 +1,5 @@
 <?php 
-include "./Database.php";
+include_once "./Database.php";
 
 class Users{
     private $db;
@@ -16,12 +16,12 @@ class Users{
             $queryString = "INSERT INTO `Users` (Username, Password, Email, Gender, Role, LastOnline, SignedUpDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $result = $this->db->query($queryString, [$Username, $hashedPassword, $Email, $Gender, $Role, $lastOnline, $signedUpDate]);
             if($result){
-                echo "User inserted successfully";
+                return "User inserted successfully";
             }else{
                 throw new Exception("Could not insert user.");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     // this function is used for login in users
@@ -30,13 +30,13 @@ class Users{
             $queryString = "SELECT Password from `Users` WHERE Username = ?";
             $result = $this->db->query($queryString, [$Username]);
             // If error accures, it could be $result getting back different datatype
-            if(pssword_verify($Password, $result["Password"])){
-                echo "Success";
+            if(password_verify($Password, $result[0]["Password"])){
+                return "Success";
             }else{
                 throw new Exception("Could not Sign in");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     // This function is to delete a user.
@@ -46,12 +46,12 @@ class Users{
             $result = $this->db->query($queryString, [$Username]);
 
             if($result){
-                echo "Success";
+                return "Success";
             }else{
                 throw new Exception("Could not delete");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
     // This function retrieves data about users,
@@ -62,12 +62,12 @@ class Users{
             $queryString = "SELECT * FROM `Users` WHERE Username = ?";
             $result = $this->db->query($queryString, [$Username]);
             if($result){
-                echo $result;
+                return $result;
             }else{
                 throw new Exception("Could not select any user.");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }
