@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $success = false;
     $result = "";
     $proccessed = false;
+    $error = "None";
     function verify_key($text, $key) {
         // Securely compare the provided text with the stored key
         return password_verify($text, $key);
@@ -60,36 +61,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //              Routers             //
     //                                  //
     //////////////////////////////////////
-
-    // Sign up
-    if(verify_key("userSignUp", $data["key"])){
-        $result = $userDB->insert($data["Username"], $data["Password"], $data["Email"], $data["Gender"],"Regular");
-        if($result == "User inserted successfully"){
-            $success = true;
+    try{
+        // Sign up
+        if(verify_key("userSignUp", $data["key"])){
+            $result = $userDB->insert($data["Username"], $data["Password"], $data["Email"], $data["Gender"],"Regular");
+            if($result == "User inserted successfully"){
+                $success = true;
+            }
+            $proccessed = true;
         }
-        $proccessed = true;
-    }
-    // Login
-    if(verify_key("userLogin", $data["key"])){
-        $result = $userDB->checkUser("Bastory", "password");
-        if($result == "Success"){
-            $success = true;
+        // Login
+        if(verify_key("userLogin", $data["key"])){
+            $result = $userDB->checkUser($data["Username"], $data["Password"]);
+            if($result == "Success"){
+                $success = true;
+            }
+            $proccessed = true;
         }
-        $proccessed = true;
-    }
-    // Delete
-    if(verify_key("userDelete", $data["key"])){
-        $result = $userDB->delete($data["Username"]);
-        if($result == "Success"){
-            $success = true;
+        // Delete
+        if(verify_key("userDelete", $data["key"])){
+            $result = $userDB->delete($data["Username"]);
+            if($result == "Success"){
+                $success = true;
+            }
+            $proccessed = true;
         }
-        $proccessed = true;
+    }catch(Exception $e){
+        $error = $e->getMessage();
     }
 
     $response = [
         'success' => $success,
         'result' => $result,
         'proccessed' => $proccessed,
+        'received' => $data,
+        'error' => $error
     ];
 
     // Send JSON response

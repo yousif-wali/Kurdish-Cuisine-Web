@@ -1,4 +1,11 @@
 <?php
+if($_REQUEST["Logout"]){
+    session_start();
+    session_unset();
+    session_destroy();
+    header("Location: ./");
+    exit();
+}
 try{
     $url = "http://localhost/Kurdish%20Cuisine%20Web/Backend/";
 
@@ -19,8 +26,14 @@ try{
             ];
             break;
         case "login":
-            $key = "$2y$10$2R/7/p3Y4TkwTIRBqNvsmuDT4d4UNf/JfYT5HrCogYGjM09aB.bMa";
+            $data = [
+                "key" => "$2y$10$3/BjW0Z0a7skbC6kLZAyHO35L2oyLyuh8e3klfevOZpoYozt.jgDy",
+                "Username" => $_POST["Username"],
+                "Password" => $_POST["Password"]
+            ];
             break;
+        default:
+            echo "Error Code: 102";
     }
     if($data!=""){
         $ch = curl_init($url);
@@ -43,17 +56,31 @@ try{
     }else{
         throw new Exception("Invalid Request");
     }
+    $response = json_decode($response, true);
+    if($response["result"] == "Could not Sign in" && $_POST["api"] == "login"){
+        setcookie("couldnotsignin", true, time()+15, "/");
+        header("Location: ./Login");
+    }
+
 }catch(Exception $e){
     echo $e->getMessage();
 }finally{
+    session_start();
     switch($_POST["location"]){
         case "signup":
-            session_start();
             $_SESSION["Username"] = $_POST["Username"];
             $_SESSION["Gender"] = $_POST["Gender"];
             $_SESSION["Email"] = $_POST["Gender"];
             header("Location: ./");
             break;
+        case "login":
+            $_SESSION["Username"] = $response["result"][0]["Username"];
+            $_SESSION["Gender"] = $response["result"][0]["Gener"];
+            $_SESSION["Email"] = $response["result"][0]["Email"];
+            header("Location: ./");
+            break;
+        default:
+         echo "error code: 103";
     }
 }
 ?>

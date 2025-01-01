@@ -5,6 +5,8 @@ RewriteRule ^Signup ./Pages/Signup.php
 
 #Transfer Data
 RewriteRule ^SignUpForm ./Validate.php
+RewriteRule ^UserForm ./Validate.php
+RewriteRule ^Logout ./Validate.php?Logout=true
 
 #Assets
 RewriteRule ^Styles/General ./Asset/Styles/General.css

@@ -31,7 +31,7 @@ class Users{
             $result = $this->db->query($queryString, [$Username]);
             // If error accures, it could be $result getting back different datatype
             if(password_verify($Password, $result[0]["Password"])){
-                return "Success";
+                return $this->selectUser($Username);
             }else{
                 throw new Exception("Could not Sign in");
             }
@@ -59,7 +59,7 @@ class Users{
     // As it is fetching critical data about our users.
     private function selectUser(string $Username){
         try{
-            $queryString = "SELECT * FROM `Users` WHERE Username = ?";
+            $queryString = "SELECT Id, Username, Email, Gender, Role, SignedUpDate FROM `Users` WHERE Username = ?";
             $result = $this->db->query($queryString, [$Username]);
             if($result){
                 return $result;

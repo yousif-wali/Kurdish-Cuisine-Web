@@ -6,7 +6,14 @@
     <style>@import "./Styles/General";</style>
 </head>
 <body>
-    <form method="POST" action="" class="form-control">
+    <form method="POST" action="./UserForm" class="form-control">
+        <?php
+        if(isset($_COOKIE["couldnotsignin"])){
+            echo "<p class='text-danger'>Username or Password Error</p>";
+        }
+        ?>
+        <input type="hidden" name="api" value="login"/>
+        <input type="hidden" name="location" value="login"/>
         <section class="form-floating mb-3">
             <input id="Username" name="Username" class="form-control" placeholder="i"/>
             <label class="form-control" for="Username">Username</label>
