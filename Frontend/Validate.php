@@ -1,4 +1,5 @@
 <?php
+session_start();
 if($_REQUEST["Logout"]){
     session_start();
     session_unset();
@@ -32,6 +33,18 @@ try{
                 "Password" => $_POST["Password"]
             ];
             break;
+        case "post":
+            if($_SESSION["Username"] == null){
+                header("Location: ./Login");
+            }
+            $data = [
+                "key" => "$2y$10$9oCqi0N/op3.VH.Wvbhbg.acdu/JtkQwKvCI9UOzZYZMo/gt6ziBu",
+                "Username" => $_SESSION["Username"],
+                "Title" => $_POST["Title"],
+                "Description" => $_POST["Description"],
+                "File" => $_FILES
+            ];
+            break;
         default:
             echo "Error Code: 102";
     }
@@ -61,11 +74,15 @@ try{
         setcookie("couldnotsignin", true, time()+15, "/");
         header("Location: ./Login");
     }
+ 
+    if($response["result"]== "Posts is successfully posted" && $_POST["api"] == "post"){
+        setcookie("posted", true, time()+15, "/");
+        header("Location: ./");
+    }
 
 }catch(Exception $e){
     echo $e->getMessage();
 }finally{
-    session_start();
     switch($_POST["location"]){
         case "signup":
             $_SESSION["Username"] = $_POST["Username"];
@@ -78,6 +95,10 @@ try{
             $_SESSION["Gender"] = $response["result"][0]["Gener"];
             $_SESSION["Email"] = $response["result"][0]["Email"];
             header("Location: ./");
+            break;
+        case "post":
+            setcookie("posted", true, time()+15, "/");
+
             break;
         default:
          echo "error code: 103";

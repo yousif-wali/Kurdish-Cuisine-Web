@@ -5,16 +5,17 @@ class FileUploader
     private $allowedExtensions;
     private $maxFileSize;
 
-    public function __construct($uploadDir = './uploads/', $allowedExtensions = ['jpg', 'png'], $maxFileSize = 2 * 1024 * 1024){
+    public function __construct($uploadDir = './uploads/', $allowedExtensions = ['jpg', 'png'], $maxFileSize = 5 * 1024 * 1024){
         $this->uploadDir = rtrim($uploadDir, '/') . '/';
         $this->allowedExtensions = $allowedExtensions;
         $this->maxFileSize = $maxFileSize;
-
+        
         if(!is_dir($this->uploadDir)){
             mkdir($this->uploadDir, 0755, true);
         }
     }
     public function upload($file){
+        $file = $file["files"];
         if(!isset($file) || $file['error'] !== UPLOAD_ERR_OK){
             return ['success' => false, 'message' => 'No file uploaded or there was an error during upload.'];
         }
@@ -22,8 +23,7 @@ class FileUploader
         $fileTmpPath = $file['tmp_name'];
         $fileName = $file['name'];
         $fileSize = $file['size'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
         // Validate file extension
         if(!in_array($fileExtension, $this->allowedExtensions)){
@@ -37,12 +37,15 @@ class FileUploader
 
         $newFileName = uniqid('', true) . '.' . $fileExtension;
         $destPath = $this->uploadDir . $newFileName;
-
         // Move the uploaded file
         if(move_uploaded_file($fileTmpPath, $destPath)){
             return ['success' => true, 'message' => "File uploaded successfully.", 'file_path' => $destPath];
         }else{
-            return ['success' => false, 'message' => "Failed to move the uploaded file."];
+            if(copy($fileTmpPath, $destPath)){
+                return ['success'=> true, 'message'=>"File uploaded successfully."];
+            }else{
+                return ['success' => false, 'message' => "Failed to move the uploaded file."];
+            }
         }
     }
 }

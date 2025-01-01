@@ -86,6 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $proccessed = true;
         }
+        // Uploading File
+        if(verify_key("requestingUploadFile", $data["key"])){
+            $result = $postsDB->insert($data["Username"], $data["Title"], $data["Description"], $data["File"]);
+            if($result == "Posts is successfully posted"){
+                $success = true;
+            }
+            $proccessed = true;
+        }
     }catch(Exception $e){
         $error = $e->getMessage();
     }

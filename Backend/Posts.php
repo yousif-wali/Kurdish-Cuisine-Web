@@ -20,11 +20,11 @@ class Posts{
                 if($isFileUploaded == "success"){
                     $lastId = $this->selectLastId($Username);
                     $queryString = "INSERT INTO `Files` (Post_Id, Filename) VALUES (?, ?)";
-                    $result = $this->db->query($queryString, [$lastId, $file["name"]]);
+                    $result = $this->db->query($queryString, [$lastId, $file["files"]["name"]]);
                     return "Posts is successfully posted";
                 }else{
                     $this->deleteLastAttempt();
-                    throw new Exception("Error Code 101");
+                    throw new Exception("Error Code 101: ". $isFileUploaded);
                 }
             }
         }catch(Exception $e){
@@ -34,12 +34,12 @@ class Posts{
     // Uploading the file
     private function uploadFile(string $Username, $file) : string{
         try{
-            $FileUploader = new FileUploader("./Posts/".$Username, ["jpg", "png"], 2 * 1024 * 1024);
+            $FileUploader = new FileUploader("./Posts/".$Username, ["jpg", "png"], 5 * 1024 * 1024);
             $FileUploadResult = $FileUploader->upload($file);
             if($FileUploadResult['success']){
                 return "success";
             }else{
-                throw new Exception("Failed to upload");
+                throw new Exception("Failed to upload (Reason) " . $FileUploadResult["message"]);
             }
         }catch(Exception $e){
             return $e->getMessage();
@@ -51,7 +51,7 @@ class Posts{
             $result = $this->db->query($queryString, [$Username]);
 
             if($result){
-                return $result["ID"];
+                return $result[0]["ID"];
             }else{
                 throw new Exception("Could not file the post");
             }
