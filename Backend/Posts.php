@@ -7,6 +7,15 @@ class Posts{
     public function __construct(Db $db){
         $this->db = $db;
     }
+    public function getAllData(){
+        $queryString = "SELECT Posts.*, Files.Filename FROM `Posts` Join Files on Files.Post_Id = Posts.ID";
+        $result = $this->db->query($queryString);
+        if($result){
+            return $result;
+        }else{
+            echo "Failed";
+        }
+    }
     // This function insert data into `POSTS` table first. If the data successfuly inserted then uploads
     // the file. If the file gets saved then its name and the post's id would be stored in `Files` table.
     // Otherwise it should delete the attempt

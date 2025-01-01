@@ -12,6 +12,7 @@ if(!loggedin()){
 <head>
     <?php include_once "./Pages/Head.html";?>
     <title>Kurdish Cuisine</title>
+    <script src="./Script/General"></script>
 </head>
 <body>
     <?php

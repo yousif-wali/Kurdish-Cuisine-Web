@@ -12,3 +12,4 @@ RewriteRule ^UploadPost ./Validate.php
 
 #Assets
 RewriteRule ^Styles/General ./Asset/Styles/General.css
+RewriteRule ^Script/General ./Asset/Scripts/index.js

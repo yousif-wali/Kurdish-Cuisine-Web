@@ -94,6 +94,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $proccessed = true;
         }
+        // Get Posts
+        if(verify_key("getAllPosts", $data["key"])){
+            $result = $postsDB->getAllData();
+            if($result){
+                $success = true;
+            }
+            $proccessed = true;
+        }
     }catch(Exception $e){
         $error = $e->getMessage();
     }

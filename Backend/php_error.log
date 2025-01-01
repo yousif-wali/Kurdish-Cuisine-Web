@@ -1,0 +1,8 @@
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Warning:  Undefined array key "key" in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 66
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Deprecated:  password_verify(): Passing null to parameter #2 ($hash) of type string is deprecated in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 56
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Warning:  Undefined array key "key" in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 74
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Deprecated:  password_verify(): Passing null to parameter #2 ($hash) of type string is deprecated in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 56
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Warning:  Undefined array key "key" in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 82
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Deprecated:  password_verify(): Passing null to parameter #2 ($hash) of type string is deprecated in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 56
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Warning:  Undefined array key "key" in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 90
+[01-Jan-2025 15:52:50 Europe/Berlin] PHP Deprecated:  password_verify(): Passing null to parameter #2 ($hash) of type string is deprecated in /Applications/XAMPP/xamppfiles/htdocs/Kurdish Cuisine Web/Backend/index.php on line 56
