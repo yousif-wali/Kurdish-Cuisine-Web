@@ -27,4 +27,40 @@ function postRequest(url, data) {
     .catch((error) => {
       console.error("Error:", error);
     });
-  
+ // Like button toggle
+ function toggleLike(button) {
+  button.classList.toggle('liked');
+  button.textContent = button.classList.contains('liked') ? '❤️ Liked' : '👍 Like';
+}
+
+// Add comment
+function addComment() {
+  const commentInput = document.getElementById('commentInput');
+  const commentsList = document.getElementById('commentsList');
+
+  if (commentInput.value.trim() !== '') {
+      const userHolder = document.createElement("section");
+      const newComment = document.createElement('section');
+
+      const Time = document.createElement("span");
+      const Username = document.createElement("span");
+      const Comment = document.createElement("p");
+
+      Time.textContent = "10:00:09";
+      Username.textContent = "Username";
+      Comment.textContent = commentInput.value.trim();
+
+      newComment.classList.add('comment');
+      userHolder.appendChild(Username);
+      userHolder.appendChild(Time);
+      newComment.appendChild(userHolder);
+      newComment.appendChild(Comment);
+      
+
+      commentsList.appendChild(newComment);
+
+
+
+      commentInput.value = '';
+  }
+}
