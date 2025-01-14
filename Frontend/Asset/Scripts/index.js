@@ -1,3 +1,4 @@
+const url ="http://localhost/Kurdish%20Cuisine%20Web/Backend/"
 function postRequest(url, data) {
     return new Promise((resolve, reject) => {
       fetch(url, {
@@ -20,9 +21,34 @@ function postRequest(url, data) {
   
   // Usage
   const data = { key : "$2y$10$5dmfn54nPXUf315L3kV29eJcjOSPlKSR7O7ebCPvfNo3xzDQe/tYG" };
-  postRequest("http://localhost/Kurdish%20Cuisine%20Web/Backend/", data)
+  postRequest(url, data)
     .then((data) => {
       console.log("Response from server:", data);
+      
+      const post = document.getElementById("post-container");
+      data.result.map((val, index)=>{
+          post.innerHTML += `
+          <section class="post">
+                <img src="${url + "Post/" +val.Username +"/"+ val.Filename}" alt="Post Image" width="200">
+                <section class="post-content">
+                    <section><h2>${val.Title}</h2></section>
+                    <section class="post-description">${val.Description}</section>
+                    <section class="post-actions">
+                        <button class="like-btn" onclick="toggleLike(this)">👍 Like</button>
+                    </section>
+                    <section class="comments-section">
+                        <section class="comment-input">
+                            <textarea type="text" id="commentInput" placeholder="Write a comment..."></textarea>
+                            <button onclick="addComment()">Post</button>
+                        </section>
+                        <section class="comments-list" id="commentsList">
+                            <!-- Comments will appear here -->
+                        </section>
+                    </section>
+                </section>
+            </section>
+          `;
+      })
     })
     .catch((error) => {
       console.error("Error:", error);
