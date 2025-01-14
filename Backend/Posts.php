@@ -8,7 +8,7 @@ class Posts{
         $this->db = $db;
     }
     public function getAllData(){
-        $queryString = "SELECT Posts.*, Files.Filename FROM `Posts` Join Files on Files.Post_Id = Posts.ID";
+        $queryString = "SELECT Posts.*, Files.Filename FROM `Posts` Join Files on Files.Post_Id = Posts.ID order by Posts.ID";
         $result = $this->db->query($queryString);
         if($result){
             return $result;
@@ -26,10 +26,11 @@ class Posts{
             $result = $this->db->query($queryString, [$Username, $Title, $Description, $publish]);
             if($result){
                 $isFileUploaded = $this->uploadFile($Username, $file);
-                if($isFileUploaded == "success"){
+                if($isFileUploaded['success'] == true){
                     $lastId = $this->selectLastId($Username);
                     $queryString = "INSERT INTO `Files` (Post_Id, Filename) VALUES (?, ?)";
-                    $result = $this->db->query($queryString, [$lastId, $file["files"]["name"]]);
+                    // TODO: Replate $file["files"]["name"] to the updated uniq id from file upload
+                    $result = $this->db->query($queryString, [$lastId, $isFileUploaded['newFileName']]);
                     return "Posts is successfully posted";
                 }else{
                     $this->deleteLastAttempt();
@@ -41,12 +42,12 @@ class Posts{
         }
     }
     // Uploading the file
-    private function uploadFile(string $Username, $file) : string{
+    private function uploadFile(string $Username, $file) : array{
         try{
             $FileUploader = new FileUploader("./Posts/".$Username, ["jpg", "png"], 5 * 1024 * 1024);
             $FileUploadResult = $FileUploader->upload($file);
             if($FileUploadResult['success']){
-                return "success";
+                return $FileUploadResult;
             }else{
                 throw new Exception("Failed to upload (Reason) " . $FileUploadResult["message"]);
             }

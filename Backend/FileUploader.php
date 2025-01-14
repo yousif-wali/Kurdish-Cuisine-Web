@@ -39,10 +39,10 @@ class FileUploader
         $destPath = $this->uploadDir . $newFileName;
         // Move the uploaded file
         if(move_uploaded_file($fileTmpPath, $destPath)){
-            return ['success' => true, 'message' => "File uploaded successfully.", 'file_path' => $destPath];
+            return ['success' => true, 'message' => "File uploaded successfully.", 'file_path' => $destPath, 'newFileName'=>$newFileName];
         }else{
             if(copy($fileTmpPath, $destPath)){
-                return ['success'=> true, 'message'=>"File uploaded successfully."];
+                return ['success'=> true, 'message'=>"File uploaded successfully.", 'newFileName'=>$newFileName];
             }else{
                 return ['success' => false, 'message' => "Failed to move the uploaded file."];
             }
