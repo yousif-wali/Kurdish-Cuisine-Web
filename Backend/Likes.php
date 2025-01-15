@@ -25,8 +25,8 @@ class Likes{
         try{
             $queryString = "SELECT * FROM Likes WHERE Username = ?";
             $result = $this->db->query($queryString, [$Username]);
-            if(result){
-                return "success";
+            if($result){
+                return $result;
             }else{
                 throw new Exception("Could not get likes.");
             }

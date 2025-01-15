@@ -75,26 +75,36 @@ function postRequest(url, data) {
       console.error("Error:", error);
     });
 
-const getLikesData = {key: "$2y$10$0BYi3GBVPFy/3xvv6qVXae8.LP27KhuWpwUF7RFXlvimuyrr2La6K"};
-likesRequest(url, data)
-.then((data) => {
-  // TODO: For each post, update the like state
-})
-.catch((error) => {
-  console.error("Error:", error);
-});
+const getLikesData = {key: "$2y$10$0BYi3GBVPFy/3xvv6qVXae8.LP27KhuWpwUF7RFXlvimuyrr2La6K", Username: Username};
+setTimeout(()=>{
+  likesRequest(url, getLikesData)
+  .then((data) => {
+    // TODO: For each post, update the like state
+    data = data.result
+    data.map((val)=>{
+      const btns = document.querySelectorAll(`button[data-post="${val.Post_Id}"]`)
+      btns.forEach((i)=>{
+        i.classList.toggle('liked');
+      })
+    })
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+}, 300);
 // Like button toggle
  function toggleLike(button) {
   const ID = button.getAttribute("data-post");
-  const data = { key: "$2y$10$.ehrTtvlp1BqfIIl3s/e4e19go0Qi0dRWyw2e4f3m5fqsn.La0c.i" , Post_ID: ID, Username: Username};
-  fetch(url, {
-    method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-  })
-  console.log(ID);
+  if(!button.classList.contains("liked")){
+    const data = { key: "$2y$10$.ehrTtvlp1BqfIIl3s/e4e19go0Qi0dRWyw2e4f3m5fqsn.La0c.i" , Post_ID: ID, Username: Username};
+    fetch(url, {
+      method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+    })
+  }
   button.classList.toggle('liked');
 }
 
