@@ -102,6 +102,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $proccessed = true;
         }
+        // Likes
+        if(verify_key("Like", $data["key"])){
+            $result = $likesDB->Like($data["Username"], $data["Post_ID"]);
+            if($result){
+                $success = true;
+            }
+            $proccessed = true;
+        }
+        // Get Likes
+        if(verify_key("getLikes", $data["key"])){
+            $result = $likesDB->getLikes($data["Username"]);
+            if($result){
+                $success = true;
+            }
+            $proccessed = true;
+        }
     }catch(Exception $e){
         $error = $e->getMessage();
     }

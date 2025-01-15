@@ -21,5 +21,18 @@ class Likes{
             return $e->getMessage();
         }
     }
+    public function getLikes(string $Username){
+        try{
+            $queryString = "SELECT * FROM Likes WHERE Username = ?";
+            $result = $this->db->query($queryString, [$Username]);
+            if(result){
+                return "success";
+            }else{
+                throw new Exception("Could not get likes.");
+            }
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
 }
 ?>

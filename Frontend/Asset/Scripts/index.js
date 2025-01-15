@@ -1,4 +1,23 @@
 const url ="http://localhost/Kurdish%20Cuisine%20Web/Backend/"
+function likesRequest(url, data){
+  return new Promise((resolve, reject) => {
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          reject(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => resolve(result))
+      .catch((error) => reject(error));
+  });
+}
 function postRequest(url, data) {
     return new Promise((resolve, reject) => {
       fetch(url, {
@@ -34,7 +53,9 @@ function postRequest(url, data) {
                     <section><h2>${val.Title}</h2></section>
                     <section class="post-description">${val.Description}</section>
                     <section class="post-actions">
-                        <button class="like-btn" onclick="toggleLike(this)">👍 Like</button>
+                    <button class="like-button" data-post="${val.ID}" onclick="toggleLike(this)">
+                        <span class="like-icon">&#10084;</span> <!-- Unicode Heart Icon -->
+                    </button>
                     </section>
                     <section class="comments-section">
                         <section class="comment-input">
@@ -53,10 +74,28 @@ function postRequest(url, data) {
     .catch((error) => {
       console.error("Error:", error);
     });
- // Like button toggle
+
+const getLikesData = {key: "$2y$10$0BYi3GBVPFy/3xvv6qVXae8.LP27KhuWpwUF7RFXlvimuyrr2La6K"};
+likesRequest(url, data)
+.then((data) => {
+  // TODO: For each post, update the like state
+})
+.catch((error) => {
+  console.error("Error:", error);
+});
+// Like button toggle
  function toggleLike(button) {
+  const ID = button.getAttribute("data-post");
+  const data = { key: "$2y$10$.ehrTtvlp1BqfIIl3s/e4e19go0Qi0dRWyw2e4f3m5fqsn.La0c.i" , Post_ID: ID, Username: Username};
+  fetch(url, {
+    method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+  })
+  console.log(ID);
   button.classList.toggle('liked');
-  button.textContent = button.classList.contains('liked') ? '❤️ Liked' : '👍 Like';
 }
 
 // Add comment

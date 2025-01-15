@@ -12,7 +12,7 @@ if(!loggedin()){
 <head>
     <?php include_once "./Pages/Head.html";?>
     <title>Kurdish Cuisine</title>
-    <script src="./Script/General"></script>
+    <script defer src="./Script/General"></script>
     <style>@import "./Styles/Main";</style>
 </head>
 <body>
@@ -21,6 +21,8 @@ if(!loggedin()){
     <?php
     if(loggedin()){
         echo "<button class='btn btn-danger' onclick='window.location=`./Logout`'>logout</button>";
+        $Username = $_SESSION["Username"];
+        echo "<script>const Username = '$Username';</script>";
     }else{
         echo "<button class='btn btn-success' onclick='window.location=`./Login`'>login</button>";
     }
