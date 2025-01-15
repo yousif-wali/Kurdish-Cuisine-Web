@@ -34,5 +34,18 @@ class Likes{
             return $e->getMessage();
         }
     }
+    public function deleteLikes(string $Username, int $Post_Id){
+        try{
+            $queryString = "DELETE FROM Likes WHERE Username = ? and Post_Id = ?";
+            $result = $this->db->query($queryString, [$Username, $Post_Id]);
+            if($result){
+                return "success";
+            }else{
+                throw new Exception("Could not remove like.");
+            }
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
 }
 ?>

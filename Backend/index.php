@@ -118,6 +118,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $proccessed = true;
         }
+        // Remove Likes
+        if(verify_key("deleteLike", $data["key"])){
+            $result = $likesDB->deleteLikes($data["Username"], $data["Post_Id"]);
+            if($result){
+                $success = true;
+            }
+            $proccessed = true;
+        }
     }catch(Exception $e){
         $error = $e->getMessage();
     }

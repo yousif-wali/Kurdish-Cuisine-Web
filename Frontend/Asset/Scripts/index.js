@@ -81,12 +81,16 @@ setTimeout(()=>{
   .then((data) => {
     // TODO: For each post, update the like state
     data = data.result
-    data.map((val)=>{
-      const btns = document.querySelectorAll(`button[data-post="${val.Post_Id}"]`)
-      btns.forEach((i)=>{
-        i.classList.toggle('liked');
+    try{
+      data.map((val)=>{
+        const btns = document.querySelectorAll(`button[data-post="${val.Post_Id}"]`)
+        btns.forEach((i)=>{
+          i.classList.toggle('liked');
+        })
       })
-    })
+    }catch{
+      throw new Error("No likes");
+    }
   })
   .catch((error) => {
     console.error("Error:", error);
@@ -97,6 +101,15 @@ setTimeout(()=>{
   const ID = button.getAttribute("data-post");
   if(!button.classList.contains("liked")){
     const data = { key: "$2y$10$.ehrTtvlp1BqfIIl3s/e4e19go0Qi0dRWyw2e4f3m5fqsn.La0c.i" , Post_ID: ID, Username: Username};
+    fetch(url, {
+      method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+    })
+  }else{
+    const data = {key : "$2y$10$6wTKmZ4V1OrTEs1LFfifkejUADIQvEM8mA3l6A./iYzMA7Vp62DJq", Post_Id: ID, Username: Username};
     fetch(url, {
       method: "POST",
           headers: {
