@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 28, 2024 at 07:03 PM
+-- Generation Time: Jan 15, 2025 at 10:04 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -34,6 +34,11 @@ CREATE TABLE `Comments` (
   `Comment` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `Comments`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +50,11 @@ CREATE TABLE `Files` (
   `Post_Id` int(11) DEFAULT NULL,
   `Filename` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Files`
+--
+
 
 -- --------------------------------------------------------
 
@@ -72,6 +82,10 @@ CREATE TABLE `Posts` (
   `PublishDate` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `Posts`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -88,6 +102,10 @@ CREATE TABLE `Users` (
   `LastOnline` date DEFAULT current_timestamp(),
   `SignedUpDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Users`
+--
 
 --
 -- Indexes for dumped tables
@@ -113,6 +131,7 @@ ALTER TABLE `Files`
 --
 ALTER TABLE `Likes`
   ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `unique_user_post_like` (`Username`,`Post_Id`),
   ADD KEY `Post_Id` (`Post_Id`),
   ADD KEY `Likes_Username_Users_Username` (`Username`);
 
@@ -138,31 +157,31 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Comments`
 --
 ALTER TABLE `Comments`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Files`
 --
 ALTER TABLE `Files`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `Likes`
 --
 ALTER TABLE `Likes`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `Posts`
 --
 ALTER TABLE `Posts`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
