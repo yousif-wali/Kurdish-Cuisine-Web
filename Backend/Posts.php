@@ -57,7 +57,7 @@ class Posts{
     }
     private function selectLastId(string $Username): int{
         try{
-            $queryString = "SELECT ID FROM `POSTS` WHERE Username = ? ORDER BY Username desc";
+            $queryString = "SELECT ID FROM `POSTS` WHERE Username = ? ORDER BY ID desc limit 1";
             $result = $this->db->query($queryString, [$Username]);
 
             if($result){
