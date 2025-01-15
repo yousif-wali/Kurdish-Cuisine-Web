@@ -44,6 +44,10 @@ nav a:hover {
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: cover;
+    transition: 0.3s all linear;
+}
+.post img:hover{
+    transform: scale(1.08);
 }
 .post-content {
         padding: 15px;

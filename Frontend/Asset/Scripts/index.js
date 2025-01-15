@@ -60,7 +60,7 @@ function postRequest(url, data) {
                     <section class="comments-section">
                         <section class="comment-input">
                             <textarea type="text" id="commentInput" placeholder="Write a comment..."></textarea>
-                            <button onclick="addComment()">Post</button>
+                            <button data-post="${val.ID}" onclick="addComment(this)">Post</button>
                         </section>
                         <section class="comments-list" id="commentsList">
                             <!-- Comments will appear here -->
@@ -122,7 +122,7 @@ setTimeout(()=>{
 }
 
 // Add comment
-function addComment() {
+function addComment(button) {
   const commentInput = document.getElementById('commentInput');
   const commentsList = document.getElementById('commentsList');
 
@@ -131,24 +131,33 @@ function addComment() {
       const newComment = document.createElement('section');
 
       const Time = document.createElement("span");
-      const Username = document.createElement("span");
+      const UsernameField = document.createElement("span");
       const Comment = document.createElement("p");
 
+      const commentTrimmed = commentInput.value.trim();
+
       Time.textContent = "10:00:09";
-      Username.textContent = "Username";
-      Comment.textContent = commentInput.value.trim();
+      UsernameField.textContent = Username;
+      Comment.textContent = commentTrimmed;
 
       newComment.classList.add('comment');
-      userHolder.appendChild(Username);
+      userHolder.appendChild(UsernameField);
       userHolder.appendChild(Time);
       newComment.appendChild(userHolder);
       newComment.appendChild(Comment);
       
 
       commentsList.appendChild(newComment);
+      const ID = button.getAttribute("data-post");
+      const data = {key: "$2y$10$341nkKsTyrD/ZiMfvqLPeeXGnDGaSzB4kAQXmLYny6A0zxQEV0.4u", Username: Username, Post_Id: ID, Comment: commentTrimmed};
 
-
-
+      fetch(url, {
+        method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+      })
       commentInput.value = '';
   }
 }

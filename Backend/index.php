@@ -126,6 +126,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $proccessed = true;
         }
+        // Add Comment
+        if(verify_key("comment", $data["key"])){
+            $result = $commentsDB->Comment($data["Username"], $data["Post_Id"], $data["Comment"]);
+            if($result){
+                $success = true;
+            }
+            $proccessed = true;
+        }
     }catch(Exception $e){
         $error = $e->getMessage();
     }
