@@ -154,7 +154,7 @@ function CommentLayoutAdd(postID, text, username){
 
       newComment.classList.add('comment');
       userHolder.appendChild(UsernameField);
-      userHolder.appendChild(Time);
+    //  userHolder.appendChild(Time);
       newComment.appendChild(userHolder);
       newComment.appendChild(Comment);
 
