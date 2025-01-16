@@ -8,7 +8,23 @@ class Posts{
         $this->db = $db;
     }
     public function getAllData(){
-        $queryString = "SELECT Posts.*, Files.Filename, GROUP_CONCAT(DISTINCT Comments.Comment SEPARATOR ', ') AS CommentsArray, COUNT(DISTINCT Likes.Username) AS TotalLikes FROM Posts JOIN Files ON Files.Post_Id = Posts.ID LEFT JOIN Comments ON Comments.Post_Id = Posts.ID LEFT JOIN Likes ON Likes.Post_Id = Posts.ID GROUP BY Posts.ID, Files.Filename ORDER BY Posts.ID;";
+        $queryString = "SELECT 
+        Posts.*, 
+        Files.Filename, 
+        GROUP_CONCAT(DISTINCT CONCAT(Comments.Username, '|||Username|||', Comments.Comment) ORDER BY Comments.Id desc SEPARATOR '|||comment|||seperator|||') AS CommentsArray, 
+        COUNT(DISTINCT Likes.Username) AS TotalLikes 
+    FROM 
+        Posts 
+    JOIN 
+        Files ON Files.Post_Id = Posts.ID 
+    LEFT JOIN 
+        Comments ON Comments.Post_Id = Posts.ID 
+    LEFT JOIN 
+        Likes ON Likes.Post_Id = Posts.ID 
+    GROUP BY 
+        Posts.ID, Files.Filename 
+    ORDER BY 
+        Posts.ID;";
         $result = $this->db->query($queryString);
         if($result){
             return $result;

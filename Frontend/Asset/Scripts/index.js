@@ -59,18 +59,27 @@ function postRequest(url, data) {
                     </section>
                     <section class="comments-section">
                         <section class="comment-input">
-                            <textarea type="text" id="commentInput" placeholder="Write a comment..."></textarea>
+                            <textarea type="text" data-post-textarea="${val.ID}" placeholder="Write a comment..."></textarea>
                             <button data-post="${val.ID}" onclick="addComment(this)">Post</button>
                         </section>
-                        <section class="comments-list" id="commentsList">
+                        <section class="comments-list" data-post-section="${val.ID}">
                             <!-- Comments will appear here -->
                         </section>
                     </section>
                 </section>
             </section>
           `;
-          // TODO: Slice val.CommentsArray then insert each comment inside the post it belongs to.
-          // Also: We can not use section#commentsList input#commentInput
+          try{
+            const comments = val.CommentsArray.split("|||comment|||seperator|||");
+            if(comments !== null){
+              comments.map((comment)=>{
+                const filtered = comment.split("|||Username|||");
+                CommentLayoutAdd(val.ID, filtered[1], filtered[0])
+              })
+            }
+          }catch{
+            console.error("no comment");
+          }
       })
     })
     .catch((error) => {
@@ -124,13 +133,12 @@ setTimeout(()=>{
   }
   button.classList.toggle('liked');
 }
-
+// Fixing this function
 // Add comment
-function addComment(button) {
-  const commentInput = document.getElementById('commentInput');
-  const commentsList = document.getElementById('commentsList');
+function CommentLayoutAdd(postID, text, username){
+  const commentsList = document.querySelector(`section[data-post-section='${postID}']`);
 
-  if (commentInput.value.trim() !== '') {
+  if (text!== '') {
       const userHolder = document.createElement("section");
       const newComment = document.createElement('section');
 
@@ -138,10 +146,10 @@ function addComment(button) {
       const UsernameField = document.createElement("span");
       const Comment = document.createElement("p");
 
-      const commentTrimmed = commentInput.value.trim();
+      const commentTrimmed = text;
 
       Time.textContent = "10:00:09";
-      UsernameField.textContent = Username;
+      UsernameField.textContent = username;
       Comment.textContent = commentTrimmed;
 
       newComment.classList.add('comment');
@@ -149,19 +157,27 @@ function addComment(button) {
       userHolder.appendChild(Time);
       newComment.appendChild(userHolder);
       newComment.appendChild(Comment);
-      
 
       commentsList.appendChild(newComment);
-      const ID = button.getAttribute("data-post");
-      const data = {key: "$2y$10$341nkKsTyrD/ZiMfvqLPeeXGnDGaSzB4kAQXmLYny6A0zxQEV0.4u", Username: Username, Post_Id: ID, Comment: commentTrimmed};
-
-      fetch(url, {
-        method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-      })
-      commentInput.value = '';
   }
+}
+function addComment(button) {
+  const ID = button.getAttribute("data-post");
+  const commentInput = document.querySelector(`textarea[data-post-textarea='${ID}']`);
+  const commentTrimmed = commentInput.value.trim();
+  console.log("Username ", Username)
+  if(Username != null){
+    CommentLayoutAdd(ID, commentTrimmed, Username);
+    const data = {key: "$2y$10$341nkKsTyrD/ZiMfvqLPeeXGnDGaSzB4kAQXmLYny6A0zxQEV0.4u", Username: Username, Post_Id: ID, Comment: commentTrimmed};
+    fetch(url, {
+      method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+  }else{
+    // TODO: alert user needs to sign in
+  }
+  commentInput.value = '';
 }
