@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 15, 2025 at 10:04 PM
+-- Generation Time: Jan 16, 2025 at 05:23 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -31,7 +31,8 @@ CREATE TABLE `Comments` (
   `Id` int(11) NOT NULL,
   `Username` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Post_Id` int(11) DEFAULT NULL,
-  `Comment` text DEFAULT NULL
+  `Comment` text DEFAULT NULL,
+  `PostedTime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -157,7 +158,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Comments`
 --
 ALTER TABLE `Comments`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Files`
@@ -169,7 +170,7 @@ ALTER TABLE `Files`
 -- AUTO_INCREMENT for table `Likes`
 --
 ALTER TABLE `Likes`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `Posts`
@@ -181,7 +182,7 @@ ALTER TABLE `Posts`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -217,4 +218,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
