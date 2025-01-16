@@ -29,12 +29,17 @@ nav a:hover {
 }
 
 .post-container {
-    width: 30dvw;
+    width: 40dvw;
     border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+}
+@media screen and (max-width:36em){
+    .post-container{
+        width:80dvw;
+    }
 }
 .post{
     margin-bottom: 10px;
@@ -179,4 +184,14 @@ nav a:hover {
 
 .like-button.liked .like-icon {
     color: #e0245e;
+}
+.top-left-button{
+    position:absolute;
+    top:15px;
+    left:15px;
+}
+.top-right-button{
+    position:absolute;
+    top:15px;
+    right: 15px;
 }

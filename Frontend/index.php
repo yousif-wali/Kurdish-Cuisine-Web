@@ -20,11 +20,12 @@ if(!loggedin()){
 
     <?php
     if(loggedin()){
-        echo "<button class='btn btn-danger' onclick='window.location=`./Logout`'>logout</button>";
+        echo "<button class='btn btn-danger top-left-button' onclick='window.location=`./Logout`'>logout</button>";
+        echo "<button class='btn btn-primary top-right-button' onclick='window.location=`./Posts`'>Post</button>";
         $Username = $_SESSION["Username"];
         echo "<script>const Username = '$Username';</script>";
     }else{
-        echo "<button class='btn btn-success' onclick='window.location=`./Login`'>login</button>";
+        echo "<button class='btn btn-success top-left-button' onclick='window.location=`./Login`'>login</button>";
         echo "<script>const Username = null;</script>";
     }
     ?>
