@@ -74,7 +74,7 @@ function postRequest(url, data) {
             if(comments !== null){
               comments.map((comment)=>{
                 const filtered = comment.split("|||Username|||");
-                CommentLayoutAdd(val.ID, filtered[1], filtered[0])
+                CommentLayoutAdd(val.ID, filtered[1], filtered[0], Username)
               })
             }
           }catch{
@@ -135,7 +135,7 @@ setTimeout(()=>{
 }
 // Fixing this function
 // Add comment
-function CommentLayoutAdd(postID, text, username){
+function CommentLayoutAdd(postID, text, username, currentUsername = null){
   const commentsList = document.querySelector(`section[data-post-section='${postID}']`);
 
   if (text!== '') {
@@ -152,6 +152,14 @@ function CommentLayoutAdd(postID, text, username){
       UsernameField.textContent = username;
       Comment.textContent = commentTrimmed;
 
+      if(username == currentUsername){
+        const btn =  document.createElement("BUTTON");
+        btn.style = 'float:right; background-color:red; border:none; color:white; border-radius:15px;';
+        btn.setAttribute("onclick", `deleteComment(this, '${currentUsername}', '${postID}')`)
+        btn.textContent = "X";
+        Comment.appendChild(btn);
+      }
+
       newComment.classList.add('comment');
       userHolder.appendChild(UsernameField);
     //  userHolder.appendChild(Time);
@@ -160,6 +168,18 @@ function CommentLayoutAdd(postID, text, username){
 
       commentsList.appendChild(newComment);
   }
+}
+function deleteComment(btn, username, post_Id){
+  const data = {key : "$2y$10$2JglvUCa8wknQS.UOkOyTephJ.LFszDsnmlAHXPquI0gUFl6TCCHO", Username: username, Post_Id: post_Id};
+  fetch(url, {
+    method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+  }).then(
+    btn.parentNode.parentNode.remove()
+  )
 }
 function addComment(button) {
   const ID = button.getAttribute("data-post");

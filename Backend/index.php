@@ -134,6 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $proccessed = true;
         }
+        // Delete Comment
+        if(verify_key("deleteComment", $data["key"])){
+            $result =$commentsDB->deleteComment($data["Username"], $data["Post_Id"]);
+            if($result){
+                $success = true;
+            }
+            $proccessed = true;
+        }
     }catch(Exception $e){
         $error = $e->getMessage();
     }

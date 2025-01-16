@@ -21,5 +21,18 @@ class Comments{
             return $e->getMessage();
         }
     }
+    public function deleteComment(string $Username, int $PostID){
+        try{
+            $queryString = "DELETE FROM Comments WHERE Username = ? and Post_Id = ?";
+            $result = $this->db->query($queryString, [$Username, $PostID]);
+            if($result){
+                return "success";
+            }else{
+                throw new Exception("Could not delete comment.");
+            }
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
 }
 ?>
