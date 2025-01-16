@@ -54,7 +54,7 @@ function postRequest(url, data) {
                     <section class="post-description">${val.Description}</section>
                     <section class="post-actions">
                     <button class="like-button" data-post="${val.ID}" onclick="toggleLike(this)">
-                        <span class="like-icon">&#10084;</span> <!-- Unicode Heart Icon -->
+                        <span class="like-icon">&#10084;</span><span>${val.TotalLikes}</span> <!-- Unicode Heart Icon -->
                     </button>
                     </section>
                     <section class="comments-section">
@@ -69,6 +69,8 @@ function postRequest(url, data) {
                 </section>
             </section>
           `;
+          // TODO: Slice val.CommentsArray then insert each comment inside the post it belongs to.
+          // Also: We can not use section#commentsList input#commentInput
       })
     })
     .catch((error) => {
@@ -110,13 +112,15 @@ setTimeout(()=>{
     })
   }else{
     const data = {key : "$2y$10$6wTKmZ4V1OrTEs1LFfifkejUADIQvEM8mA3l6A./iYzMA7Vp62DJq", Post_Id: ID, Username: Username};
-    fetch(url, {
-      method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-    })
+    if(Username != null){
+      fetch(url, {
+        method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+      })
+    }
   }
   button.classList.toggle('liked');
 }

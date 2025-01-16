@@ -25,6 +25,7 @@ if(!loggedin()){
         echo "<script>const Username = '$Username';</script>";
     }else{
         echo "<button class='btn btn-success' onclick='window.location=`./Login`'>login</button>";
+        echo "<script>const Username = null;</script>";
     }
     ?>
 	<section class="post-container" id="post-container">

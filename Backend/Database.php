@@ -45,7 +45,7 @@ class DB {
         if (strpos($sql, 'SELECT') === 0) {
             while ($row = $result->fetch_assoc()) {
                 foreach ($row as $key => $value) {
-                    $row[$key] = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
+                    $row[$key] = $value !== null ? htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE) : null;
                 }
                 $rows[] = $row;
             }
